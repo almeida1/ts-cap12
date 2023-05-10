@@ -23,7 +23,7 @@ class REQ023ExcluirLivrosTest {
 		Livro ro = repository.findByIsbn("3333");
 		repository.deleteById(ro.getId());
 		// Então – o resultado obtido da consulta deve ser null
-		assertThat(repository.findByIsbn("3333")).isEqualTo(null);
+		assertThat(repository.findByIsbn("3333")).isNull();
 	}
 
 }

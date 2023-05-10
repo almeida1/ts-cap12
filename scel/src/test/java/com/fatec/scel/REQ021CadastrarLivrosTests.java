@@ -48,7 +48,7 @@ class REQ021CadastrarLivrosTests {
 		Set<ConstraintViolation<Livro>> violations = validator.validate(livro);
 		// Então – o sistema rejeita o cadastro.
 		assertFalse(violations.isEmpty());
-		assertEquals(violations.size(), 1);
+		assertEquals(1,violations.size());
 		assertEquals("Titulo deve ter entre 1 e 50 caracteres", violations.iterator().next().getMessage());
 
 	}
