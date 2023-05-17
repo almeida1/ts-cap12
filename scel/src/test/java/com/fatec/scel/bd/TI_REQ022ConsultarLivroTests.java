@@ -1,4 +1,4 @@
-package com.fatec.scel;
+package com.fatec.scel.bd;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -8,10 +8,10 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
-import com.fatec.scel.model.Livro;
-import com.fatec.scel.model.LivroRepository;
+import com.fatec.scel.model.matemlivro.Livro;
+import com.fatec.scel.model.matemlivro.LivroRepository;
 @SpringBootTest
-class REQ022ConsultarLivroTests {
+class TI_REQ022ConsultarLivroTests {
 
 	@Autowired
 	LivroRepository repository;

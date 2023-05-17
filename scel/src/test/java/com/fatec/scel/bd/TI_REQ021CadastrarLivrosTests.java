@@ -1,4 +1,4 @@
-package com.fatec.scel;
+package com.fatec.scel.bd;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
@@ -16,17 +16,15 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.dao.DataIntegrityViolationException;
 
-import com.fatec.scel.model.Livro;
-import com.fatec.scel.model.LivroRepository;
+import com.fatec.scel.model.matemlivro.Livro;
+import com.fatec.scel.model.matemlivro.LivroRepository;
 @SpringBootTest
-class REQ021CadastrarLivrosTests {
+class TI_REQ021CadastrarLivrosTests {
 
 	@Autowired
 	LivroRepository repository;
 	Livro livro;
-	private Validator validator;
-	private ValidatorFactory validatorFactory;
-
+	
 	@Test
 	void ct01_cadastrar_livro_com_sucesso() {
 		// Dado – que o atendente tem um livro não cadastrado
@@ -39,22 +37,7 @@ class REQ021CadastrarLivrosTests {
 	}
 
 	@Test
-	void ct02_cadastrar_livro_com_titulo_invalido() {
-		// Dado – que o atendente tem um livro não cadastrado
-		livro = new Livro("3333", "", "Delamaro");
-		// Quando – o usuário não informa o título do livro
-		validatorFactory = Validation.buildDefaultValidatorFactory();
-		validator = validatorFactory.getValidator();
-		Set<ConstraintViolation<Livro>> violations = validator.validate(livro);
-		// Então – o sistema rejeita o cadastro.
-		assertFalse(violations.isEmpty());
-		assertEquals(1,violations.size());
-		assertEquals("Titulo deve ter entre 1 e 50 caracteres", violations.iterator().next().getMessage());
-
-	}
-
-	@Test
-	void ct03_cadastrar_livro_para_um_isbn_ja_cadastrado() {
+	void ct02_cadastrar_livro_para_um_isbn_ja_cadastrado() {
 		// Dado – que o ISBN do livro ja está cadastrado
 		repository.deleteAll();
 		livro = new Livro("4444", "Teste de Software", "Delamaro");

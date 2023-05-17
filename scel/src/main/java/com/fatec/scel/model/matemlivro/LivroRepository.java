@@ -1,4 +1,4 @@
-package com.fatec.scel.model;
+package com.fatec.scel.model.matemlivro;
 import java.util.List;
 
 import org.springframework.data.jpa.repository.Query;
