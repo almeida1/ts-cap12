@@ -16,7 +16,9 @@ import org.springframework.http.ResponseEntity;
 
 import com.fatec.scel.model.matemlivro.Livro;
 import com.google.gson.Gson;
-
+/*
+ * Valida a integração da APIWeb com o servico (MantemLivro) 
+ */
 @SpringBootTest(webEnvironment = WebEnvironment.RANDOM_PORT)
 class TIAPI_REQ02CadastrarLivro {
 	String urlBase = "/api/v1/livros";

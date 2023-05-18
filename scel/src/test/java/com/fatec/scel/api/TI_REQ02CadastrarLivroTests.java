@@ -10,7 +10,9 @@ import org.springframework.boot.test.context.SpringBootTest;
 import com.fatec.scel.model.matemlivro.Livro;
 import com.fatec.scel.model.matemlivro.LivroRepository;
 import com.fatec.scel.servico.mantemlivro.IMantemLivro;
-
+/*
+ * Valida a integração do servico (MantemLivro) com a camada de persistencia
+ */
 @SpringBootTest
 class TI_REQ02CadastrarLivroTests {
 	@Autowired
