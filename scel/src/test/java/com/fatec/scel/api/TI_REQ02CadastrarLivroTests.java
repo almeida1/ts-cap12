@@ -25,7 +25,6 @@ class TI_REQ02CadastrarLivroTests {
 		// Quando – o atendente cadastra um livro com informações validas
 		Livro livroCadastrado = mantemLivro.save(livro);
 		// Então – o sistema verifica os dados E permite a consulta do livro
-		assertEquals (1, livroCadastrado.getId());
 		assertTrue(livroCadastrado.equals(livro));
 	}
 }

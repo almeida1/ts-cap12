@@ -26,12 +26,11 @@ public class APILivroController {
 	IMantemLivro servico; // controller nao conhece a implementacao
 	@PostMapping
 	//@Operation (summary = "Cadastrar um livro na biblioteca")
-	public ResponseEntity<?> create(@Valid @RequestBody Livro livro, BindingResult result) {
-		logger.info(">>>>>> controller create - post iniciado ==>" + result.hasErrors()) ;
-		logger.info(">>>>>> controller create - post iniciado ==>" + livro.getTitulo()) ;
+	public ResponseEntity<?> create(@RequestBody Livro livro) {
+		
 		ResponseEntity<?> response = null;
 		logger.info(">>>>>> controller create - post iniciado");
-		if (result.hasErrors()) {
+		if (livro.getAutor().equals("") || livro.getIsbn().equals("") || livro.getTitulo().equals("")) {
 			logger.info(">>>>>> api livro controller create - entrada de dados inválidos " );
 			response = ResponseEntity.badRequest().body("Dados inválidos.");
 		} else {
