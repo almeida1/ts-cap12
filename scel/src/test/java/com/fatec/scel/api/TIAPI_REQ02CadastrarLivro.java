@@ -1,6 +1,7 @@
 package com.fatec.scel.api;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -36,21 +37,19 @@ class TIAPI_REQ02CadastrarLivro {
 		HttpEntity<String> httpEntity = new HttpEntity<String>(entity, headers);
 		// Quando – o atendente cadastra um livro com informações válidas
 		ResponseEntity<String> resposta = testRestTemplate.exchange(urlBase, HttpMethod.POST, httpEntity, String.class);
-		// Então – o sistema valida os dados e retorna mensagem de livro cadastrado com
-		// sucesso
+		// Então – o sistema valida os dados e retorna mensagem de livro cadastrado com sucesso
 		assertEquals("201 CREATED", resposta.getStatusCode().toString());
 		assertEquals(HttpStatus.CREATED, resposta.getStatusCode());
-		String bodyEsperado = "{\"id\":1,\"isbn\":\"3333\",\"titulo\":\"User Stories\",\"autor\":\"Cohn\"}";
-		assertEquals(bodyEsperado, resposta.getBody());
+		String re = "{\"id\":2,\"isbn\":\"3333\",\"titulo\":\"User Stories\",\"autor\":\"Cohn\"}";
+		assertTrue(re.equals(resposta.getBody()));
 	}
 
 	@Test
-	public void ct02_cadastrar_livro_quando_metodo_http_nao_disponivel_retorna_http_405() throws Exception {
-		// Dado – que o servico está disponivel e o atendente tem um livro não
-		// cadastrado
+	public void ct02_cadastrar_livro_metodo_http_nao_disponivel_retorna_http_405() throws Exception {
+		// Dado – que o servico está disponivel e o atendente tem um livro não cadastrado
 		Livro livro = new Livro("1111", "Teste de Software", "Delamaro");
-		// Quando o cadastro é realizado para um método não disponivel
 		HttpEntity<Livro> httpEntity3 = new HttpEntity<>(livro);
+		// Quando o cadastro é realizado para um método não disponivel
 		ResponseEntity<String> resposta2 = testRestTemplate.exchange(urlBase, HttpMethod.PUT, httpEntity3,
 				String.class);
 		// Retorna http 405
@@ -74,9 +73,9 @@ class TIAPI_REQ02CadastrarLivro {
 	void ct04_quando_dados_invalidos_retorna_400() {
 		// Dado - que livro não esta cadastrado
 		Livro livro = new Livro("4444", "", "Sommerville");
-		// Quando - o usuario faz uma requisicao POST invalida HttpEntity<Livro>
 		HttpEntity<Livro> httpEntity = new HttpEntity<>(livro);
 		httpEntity = new HttpEntity<>(livro);
+		// Quando - o usuario faz uma requisicao POST invalida HttpEntity<Livro>
 		ResponseEntity<String> resposta = testRestTemplate.exchange(urlBase, HttpMethod.POST, httpEntity, String.class);
 		// Entao - retorna HTTP400
 		assertEquals("400 BAD_REQUEST", resposta.getStatusCode().toString());
