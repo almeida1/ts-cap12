@@ -54,12 +54,11 @@ class TIAPI_REQ023ConsultarLivroTests {
 		// Quando - solicita uma requisicao get consulta todos
 		ResponseEntity<List<Livro>> resposta = testRestTemplate.exchange(urlBase, HttpMethod.GET, null, tipoRetorno);
 		// Entao - retorna 2
-		assertEquals(2, resposta.getBody().size());
 		assertEquals("200 OK", resposta.getStatusCode().toString());
-		// validacao do estado
+		// validacao do corpo da mensagem
+		assertEquals(2, resposta.getBody().size());
 		Livro re = new Livro("1111", "Teste de Software", "Delamaro");
 		Livro ro = resposta.getBody().get(0);
-		re.setId(ro.getId());
 		assertTrue(re.equals(ro));
 	}
 

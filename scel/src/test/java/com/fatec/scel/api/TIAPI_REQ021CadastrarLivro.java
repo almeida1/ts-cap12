@@ -30,14 +30,13 @@ class TIAPI_REQ021CadastrarLivro {
 		headers.setContentType(MediaType.APPLICATION_JSON);
 		HttpEntity<String> httpEntity = new HttpEntity<String>(entity, headers);
 		// Quando – o atendente cadastra um livro com informações válidas
-		ResponseEntity<String> resposta = testRestTemplate.exchange(urlBase, HttpMethod.POST, httpEntity, String.class);
+		ResponseEntity<Livro> resposta = testRestTemplate.exchange(urlBase, HttpMethod.POST, httpEntity, Livro.class);
 		// Então – o sistema valida os dados e retorna mensagem de livro cadastrado com sucesso
 		assertEquals("201 CREATED", resposta.getStatusCode().toString());
 		String re = "{\"id\":2,\"isbn\":\"3333\",\"titulo\":\"User Stories\",\"autor\":\"Cohn\"}";
 		Gson gson = new Gson();
 		Livro resultadoEsperado = gson.fromJson(re, Livro.class);
-		Livro resultadoObtido = gson.fromJson(resposta.getBody(), Livro.class);
-		assertTrue(resultadoEsperado.equals(resultadoObtido));
+		assertTrue(resultadoEsperado.equals(resposta.getBody()));
 	}
 	@Test
 	public void ct02_cadastrar_livro_metodo_http_nao_disponivel_retorna_http_405() throws Exception {
