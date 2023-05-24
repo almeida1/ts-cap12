@@ -1,8 +1,6 @@
 package com.fatec.scel.model.matemlivro;
-import java.util.Objects;
 
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Size;
+import java.util.Objects;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -14,22 +12,16 @@ public class Livro {
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Long id;
-	@NotNull
-	@Size(min = 4, max = 4, message = "ISBN deve ter 4 caracteres")
-	@Column(unique=true) //nao funciona com @Valid tem que tratar na camada de persistencia
+	@Column(unique = true) //tratado na camada de persistencia 
 	private String isbn;
-	@NotNull
-	@Size(min = 1, max = 50, message = "Titulo deve ter entre 1 e 50 caracteres")
 	private String titulo;
-	@NotNull
-	@Size(min = 1, max = 50, message = "Autor deve ter entre 1 e 50 caracteres")
 	private String autor;
 	public Livro() {
 	}
 	public Livro(String i, String t, String a) {
-		this.isbn = i;
-		this.titulo = t;
-		this.autor = a;
+		setIsbn(i);
+		setTitulo(t);
+		setAutor(a);
 	}
 	public void setId(Long id) {
 		this.id = id;
@@ -41,23 +33,32 @@ public class Livro {
 		return isbn;
 	}
 	public void setIsbn(String isbn) {
-		this.isbn = isbn;
+		if (isbn == null || isbn.isBlank() || isbn.length() > 4 || isbn.length() < 4)
+			throw new IllegalArgumentException("O ISBN é formado por 4 caracteres");
+		else
+			this.isbn = isbn;
 	}
 	public String getTitulo() {
 		return titulo;
 	}
 	public void setTitulo(String titulo) {
-		this.titulo = titulo;
+		if (titulo == null || titulo.isBlank() )
+			throw new IllegalArgumentException("O titulo não deve estar em branco");
+		else
+			this.titulo = titulo;
 	}
 	public String getAutor() {
 		return autor;
 	}
 	public void setAutor(String autor) {
-		this.autor = autor;
+		if (autor == null || autor.isBlank())
+			throw new IllegalArgumentException("O autor não deve estar em branco");
+		else
+			this.autor = autor;
 	}
 	@Override
 	public int hashCode() {
-		return Objects.hash(autor, id, isbn, titulo);
+		return Objects.hash(autor, isbn, titulo);
 	}
 	@Override
 	public boolean equals(Object obj) {
@@ -68,9 +69,7 @@ public class Livro {
 		if (getClass() != obj.getClass())
 			return false;
 		Livro other = (Livro) obj;
-		return Objects.equals(autor, other.autor) && Objects.equals(id, other.id) && Objects.equals(isbn, other.isbn)
+		return Objects.equals(autor, other.autor) && Objects.equals(isbn, other.isbn)
 				&& Objects.equals(titulo, other.titulo);
 	}
-	
-
 }

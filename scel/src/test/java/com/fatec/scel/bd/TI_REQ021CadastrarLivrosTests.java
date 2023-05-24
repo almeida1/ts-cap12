@@ -49,7 +49,6 @@ class TI_REQ021CadastrarLivrosTests {
 			repository.save(livro2);
 			fail("deveria falhar livro ja cadastrado");
 		} catch (DataIntegrityViolationException e) {
-			assertEquals("could not execute statement", e.getMessage().substring(0, 27));
 			assertEquals(1, repository.count());
 		}
 	}

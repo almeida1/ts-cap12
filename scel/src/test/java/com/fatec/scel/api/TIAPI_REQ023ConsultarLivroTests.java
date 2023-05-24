@@ -42,7 +42,7 @@ class TIAPI_REQ023ConsultarLivroTests {
 		repository.save(umLivro);
 		umLivro = new Livro("2222", "Engenharia de Software", "Pressman");
 		repository.save(umLivro);
-		List<Livro> livros = servicoMantemLivro.consultaTodos();
+		List<Livro> livros = servicoMantemLivro.consultarTodos();
 		ArrayList<Livro> lista = new ArrayList<Livro>();
 		livros.forEach(cliente -> lista.add(cliente));
 		lista.forEach(cli -> System.out.println("clientes nesta sessao =>" + cli.toString()));

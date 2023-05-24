@@ -17,7 +17,7 @@ public class LoadDatabase {
 		return args -> {
 			Livro livro = new Livro("aaaa", "Selenium", "Kovalenko" );
 			repository.save(livro);
-			log.info (">>>>> registro incluido");
+			log.info (">>>>> loaddatabase -> registro incluido");
 		};
 	}
 }

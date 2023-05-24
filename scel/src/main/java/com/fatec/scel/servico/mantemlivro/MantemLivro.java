@@ -20,23 +20,19 @@ public class MantemLivro implements IMantemLivro {
 	Logger logger = LogManager.getLogger(this.getClass());
 	@Autowired
 	LivroRepository repository;
-
 	@Override
-	public List<Livro> consultaTodos() {
+	public List<Livro> consultarTodos() {
 		List<Livro> result = new ArrayList<Livro>();
 		repository.findAll().forEach(result::add);
 		return result;
 	}
-
 	@Override
-	public Livro save(@Valid Livro livro) {
+	public Livro cadastrar(Livro livro) {
 		logger.info(">>>>>> servico save - cadastro de livro ");
 		return repository.save(livro);
-
 	}
-
 	@Override
-	public Livro consultaPorId(Long id) {
+	public Livro consultarPorId(Long id) {
 		logger.info(">>>>>> servico consulta por id chamado");
 		Optional<Livro> livro = repository.findById(id);
 		if (livro.isPresent()) {
@@ -44,17 +40,15 @@ public class MantemLivro implements IMantemLivro {
 		} else {
 			return null;
 		}
-
 	}
-
 	@Override
-	public Livro consultaPorIsbn(String isbn) {
+	public Livro consultarPorIsbn(String isbn) {
 		logger.info(">>>>>> servico consulta por isbn chamado");
 		return repository.findByIsbn(isbn);
 	}
 
 	@Override
-	public void delete(Long id) {
+	public void excluir(Long id) {
 		logger.info(">>>>>> servico delete por id chamado");
 		repository.deleteById(id);
 	}

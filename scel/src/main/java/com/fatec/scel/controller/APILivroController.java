@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.fatec.scel.model.matemlivro.Livro;
+import com.fatec.scel.model.matemlivro.LivroDTO;
 import com.fatec.scel.servico.mantemlivro.IMantemLivro;
 
 @Controller
@@ -27,21 +28,22 @@ public class APILivroController {
 
 	@PostMapping
 	// @Operation (summary = "Cadastrar um livro na biblioteca")
-	public ResponseEntity<?> create(@RequestBody Livro livro) {
+	public ResponseEntity<?> create(@RequestBody LivroDTO livroDTO) {
 
 		ResponseEntity<?> response = null;
 		logger.info(">>>>>> controller create - post iniciado");
-		if (livro.getAutor().equals("") || livro.getIsbn().equals("") || livro.getTitulo().equals("")) {
-			logger.info(">>>>>> api livro controller create - entrada de dados inválidos ");
-			response = ResponseEntity.badRequest().body("Dados inválidos.");
+		Optional<Livro> umLivro = Optional.ofNullable(servico.consultarPorIsbn(livroDTO.getIsbn()));
+		if (umLivro.isPresent()) {
+			logger.info(">>>>>> api livro controller create - livro isbn cadastrado");
+			response = ResponseEntity.badRequest().body("Livro já cadastrado");
 		} else {
-			Optional<Livro> umLivro = Optional.ofNullable(servico.consultaPorIsbn(livro.getIsbn()));
-			if (umLivro.isPresent()) {
-				logger.info(">>>>>> api livro controller create - livro isbn cadastrado");
-				response = ResponseEntity.badRequest().body("Livro já cadastrado");
-			} else {
-				response = ResponseEntity.status(HttpStatus.CREATED).body(servico.save(livro));
+			try {
+				Livro livro = livroDTO.retornaUmLivro();
+				response = ResponseEntity.status(HttpStatus.CREATED).body(servico.cadastrar(livro));
 				logger.info(">>>>>> api livro controller create - cadastro realizado com sucesso");
+			} catch (IllegalArgumentException e) {
+				response = ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
+				logger.info(">>>>>> api livro controller create - dados invalidos");
 			}
 		}
 		return response;
@@ -50,14 +52,14 @@ public class APILivroController {
 	@GetMapping
 	public ResponseEntity<List<Livro>> consultaTodos() {
 		logger.info(">>>>>> 1. controller chamou servico consulta todos");
-		return ResponseEntity.ok().body(servico.consultaTodos());
+		return ResponseEntity.ok().body(servico.consultarTodos());
 	}
 
 	@GetMapping("/{isbn}")
 	public ResponseEntity<Livro> findByIsbn(@PathVariable String isbn) {
 		logger.info(">>>>>> 1. controller chamou servico consulta por isbn => " + isbn);
 		ResponseEntity<Livro> response = null;
-		Livro livro = servico.consultaPorIsbn(isbn);
+		Livro livro = servico.consultarPorIsbn(isbn);
 		Optional<Livro> optLivro = Optional.ofNullable(livro);
 		if (optLivro.isPresent()) {
 			response = ResponseEntity.status(HttpStatus.OK).body(optLivro.get());
